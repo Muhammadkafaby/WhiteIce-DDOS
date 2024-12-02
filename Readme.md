@@ -58,20 +58,27 @@ whiteice.py
    Enter the target URL: http://example.com
    ```
 
-3. Set the number of threads:
+3. Set the port number:
 
    ```plaintext
    Enter your choice: 3
+   Enter the port number: 80
+   ```
+
+4. Set the number of threads:
+
+   ```plaintext
+   Enter your choice: 4
    Enter the number of threads: 200
    ```
 
-4. Start the attack:
+5. Start the attack:
 
    ```plaintext
    Enter your choice: 1
    ```
 
-5. The attack will start, and you will see a loading animation indicating the ongoing attack. To stop the attack, press `Ctrl+C`.
+6. The attack will start, and you will see a loading animation indicating the ongoing attack. To stop the attack, press `Ctrl+C`.
 
 ## Important Note
 

