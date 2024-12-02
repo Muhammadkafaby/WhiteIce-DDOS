@@ -76,3 +76,9 @@ whiteice.py
 ## Important Note
 
 This script is for educational purposes only. Do not use it to attack any website or server without explicit permission from the owner. Unauthorized use of this script may be illegal and unethical.
+
+## License
+
+This project is licensed under the MIT License.
+
+This [README.md] file provides an overview of the project, installation instructions, usage examples, and an important note about ethical use. The example section demonstrates how to use the menu options to set the target URL, set the number of threads, and start the attack. The license section has been formatted and includes the necessary information.
