@@ -17,7 +17,7 @@ This is a KeepAlive+NoCache DoS Test Tool written in Python. It sends HTTP reque
 
 ## Installation
 
-1. Clone the repository or download the script.
+1. Clone the repository https://github.com/Muhammadkafaby/WhiteIce-DDOS.git or download the script.
 2. Install the required dependencies using `pip`:
 
    ```sh
